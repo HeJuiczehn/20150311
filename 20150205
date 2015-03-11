@@ -1,1 +1,48 @@
-
+#include <iostream>
+#include <vector>
+using std::cout;
+using std::cin;
+using std::vector;
+using std::endl;
+int main(){
+	std::cout << "Please enter two numbers :";
+	int input_a,input_b;
+	std::cin >> input_a >> input_b;
+	if (input_a < input_b){
+		int *pt = new int;
+		*pt = input_a;
+		input_a = input_b;
+		input_b = *pt;
+		delete pt;
+	}
+	cout << "Wait for a minute..." << endl;
+	int *numbers = new int[input_a - input_b + 1];
+	for(int test = input_b;test != input_a;++test)
+		numbers[test-input_b] = test;
+	vector<int> answers;
+	bool running = true;
+	int *testind = new int;
+	for (int *testnum = numbers;testnum != numbers + input_a - input_b;++testnum){
+		running = true;
+		for (*testind = 2;(*testind) * (*testind) <= input_a && running == true;++*testind){
+			if ((*testnum) / (*testind) * (*testind) == *testnum && *testnum != *testind || *testnum == 1){
+				running = false;
+				*testind = 2;
+			}
+		}
+		if (running == true){
+			answers.push_back(*testnum);
+			*testind = 2;
+		}
+	}
+	delete numbers,testind;
+	if (answers.empty())
+		cout << "Sorry, no prime numbers.";
+	else {
+		cout << "Now,the prime number(s) are(is):" << endl;
+		for (vector<int>::const_iterator prime = answers.begin();prime != answers.end();++prime)
+				cout << *prime << endl;
+	}
+	cout << "Done!" << endl;
+	return 0;
+}
